@@ -41,11 +41,89 @@ public class PalindromeTest {
      * @return returns true if a palindrome (ignoring whitespace and case sensitivity), false otherwise
      */
     private boolean isPalindrome(String s) {
-
+    	
+    	if(s == null ) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	//stacks
+    	StackInterface<Character> mainStack;
+    	StackInterface<Character> firstTempStack;
+    	StackInterface<Character> firstStack;
+    	StackInterface<Character> secondStack;
+    	
+    	//variables
+    	char c;
+    	int count = 0; //character count
+    	int compareStacksSizes = 0;
+    	boolean isPal = false;
+    	
         // TODO:
-        // Implement this method body using your ArrayListStack. Be mindful of your algorithm!
-        return false;
-
+        
+    	 mainStack = new ArrayListStack<Character>();
+    	 firstTempStack = new ArrayListStack<Character>();
+    	 firstStack = new ArrayListStack<Character>();
+    	 secondStack = new ArrayListStack<Character>();
+    	 
+    	//remove spaces
+    	s = s.replaceAll("\\s", "");
+    	
+    	//set string to lowercase
+    	s = s.toLowerCase();
+    	
+    	    	 
+    	int stringLen = s.length();
+    	    	
+    	//push chars to mainStack
+    	for(int i = 0; i < s.length(); i++) {
+    		mainStack.push(s.charAt(i));
+    		
+    	}
+    	
+    	compareStacksSizes = stringLen / 2;
+    	
+    	boolean oddNumber = false;
+    	
+    	if (stringLen % 2 != 0) {
+    		
+    		oddNumber = true;
+    	}
+    	
+    	//populate firstTempStack
+    	if(stringLen >= 2) {
+    		for(int i = 0; i < compareStacksSizes; i++ ) {
+    			firstTempStack.push(mainStack.pop());
+    		}
+    	} else {
+    		return true;
+    	}
+    	
+    	if(oddNumber) {
+    		mainStack.pop();
+    	}
+    	
+    	//populate firstStack with firstTempStack. this reverses the order
+    	while(!firstTempStack.empty()) {
+    		firstStack.push(firstTempStack.pop());
+    	}
+    	if(stringLen >= 2) {
+    		for(int i = 0; i < compareStacksSizes; i++ ) {
+    			secondStack.push(mainStack.pop());
+    		}
+    	}
+    	//compare firstStack to secondStack
+    	for(int i = 0; i < compareStacksSizes; i++) {
+    	
+    		if( firstStack.pop() != secondStack.pop()) {
+    			
+    			isPal = false;
+    			i = compareStacksSizes + 1;
+    		} else 
+    			isPal = true;
+    		}
+    	
+    	
+    	return isPal;
     } // End of method isPalindrome
 
     @Test
